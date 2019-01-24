@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.4
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NameCardListMain", "NameCardListMain.vcxproj", "{4A854554-45B1-47CD-8D5B-73516835AB49}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4A854554-45B1-47CD-8D5B-73516835AB49}.Debug|x64.ActiveCfg = Debug|x64
+		{4A854554-45B1-47CD-8D5B-73516835AB49}.Debug|x64.Build.0 = Debug|x64
+		{4A854554-45B1-47CD-8D5B-73516835AB49}.Debug|x86.ActiveCfg = Debug|Win32
+		{4A854554-45B1-47CD-8D5B-73516835AB49}.Debug|x86.Build.0 = Debug|Win32
+		{4A854554-45B1-47CD-8D5B-73516835AB49}.Release|x64.ActiveCfg = Release|x64
+		{4A854554-45B1-47CD-8D5B-73516835AB49}.Release|x64.Build.0 = Release|x64
+		{4A854554-45B1-47CD-8D5B-73516835AB49}.Release|x86.ActiveCfg = Release|Win32
+		{4A854554-45B1-47CD-8D5B-73516835AB49}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
