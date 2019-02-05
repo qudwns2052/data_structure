@@ -1,0 +1,9 @@
+﻿  CircularQueue.c
+  HamburgerSim.c
+c:\users\goka\documents\visual studio 2017\projects\data_structure\hamburgersim\hamburgersim.c(25): warning C4244: '함수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\goka\documents\visual studio 2017\projects\data_structure\hamburgersim\hamburgersim.c(64): warning C4477: 'scanf' : 서식 문자열 '%d'에 'int *' 형식의 인수가 필요하지만 variadic 인수 1의 형식이 'int'입니다.
+c:\users\goka\documents\visual studio 2017\projects\data_structure\hamburgersim\hamburgersim.c(64): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1274): note: 'scanf' 선언을 참조하십시오.
+  코드를 생성하고 있습니다...
+c:\users\goka\documents\visual studio 2017\projects\data_structure\hamburgersim\hamburgersim.c(64): warning C4700: 초기화되지 않은 'i' 지역 변수를 사용했습니다.
+  HamburgerSim.vcxproj -> C:\Users\GOKA\Documents\Visual Studio 2017\Projects\data_structure\HamburgerSim\Debug\HamburgerSim.exe
