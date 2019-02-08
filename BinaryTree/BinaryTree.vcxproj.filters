@@ -23,7 +23,7 @@
     <ClCompile Include="BinaryTree.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="BinaryTreeMain.c">
+    <ClCompile Include="BinaryTreeTraverseMain.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
