@@ -1,0 +1,5 @@
+﻿  HeapSort.c
+c:\users\goka\documents\visual studio 2017\projects\data_structure\heapsort\heapsort.c(35): warning C4013: 'system'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+  UsefulHeap.c
+  코드를 생성하고 있습니다...
+  HeapSort.vcxproj -> C:\Users\GOKA\Documents\Visual Studio 2017\Projects\data_structure\HeapSort\Debug\HeapSort.exe
