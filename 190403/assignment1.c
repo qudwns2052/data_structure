@@ -7,7 +7,6 @@
 
 #define MAX_SIZE_STR 100
 
-
 // 중위 표기법을 후위 표기법으로 변환한다
 // 피연산자는 무조건 출력한다
 // 연산자의 경우에는 우선순위에 따라 결정한다
@@ -60,11 +59,13 @@ int prec(char op)
 {
 	switch (op) 
 	{
-	case '+': case '-': return 1;
-	case '*': case '/': return 2;
-	case '!': return 3;	//!의 우선순위는 ()보다 느리고 *보다 빠르다.
+	case '+': case '-': return 3;
+	case '*': case '/': return 4;
+	case '!': return 5;	//!의 우선순위는 ()보다 느리고 *보다 빠르다.
+	case '(': return 1;
+	case ')': return 2;
 	}
-	return -1;
+	return -2;
 }
 
 char * infix_to_postfix(char exp[]) 
@@ -171,16 +172,17 @@ void Calculate(char str[])	//후위수식 계산하기
 				break;
 
 			temp[idx] = str[i];		//temp에 str전달
-			printf("temp 대입 %c\n", temp[idx]);
+		//	printf("temp 대입 %c\n", temp[idx]);
 			i++;
 			idx++;
 		}	//temp라는 배열에 공백과 공백 사이의 값이 저장됨
 
-		if (temp[0] == '*' || temp[0] == '/' || temp[0] == '+' || temp[0] == '-' || temp[0] == '!')	//연산자면, temp를 한번 받았을테니 검사
+		//if (temp[0] == '*' || temp[0] == '/' || temp[0] == '+' || temp[0] == '-' || temp[0] == '!')	//연산자면, temp를 한번 받았을테니 검사
+		if (prec(temp[0]) > 2)	//연산자면, temp를 한번 받았을테니 검사
 		{
 			op2 = pop(&s);
 			op1 = pop(&s);
-			printf("pop\npop\n");
+		//	printf("pop\npop\n");
 			switch (temp[0])
 			{
 			case '*':
@@ -196,7 +198,7 @@ void Calculate(char str[])	//후위수식 계산하기
 				result = op1 - op2;
 				break;
 			case '!':
-				for (int j = 0; j < op2 ; j++)
+				for (int j = 0; j < op2; j++)
 				{
 					m_temp *= op1;
 				}
@@ -205,26 +207,91 @@ void Calculate(char str[])	//후위수식 계산하기
 			}
 
 			push(&s, result);
-			printf("push 연산결과 %d\n",result);
+		//	printf("push 연산결과 %d\n", result);
 		}
 		else
 		{
 			integer = atoi(temp);	//atoi(a): a문자열을 숫자로 변환하는 함수 <stdlib.h> 안에 존재
 			push(&s, integer);	//숫자 넣기
-			printf("push 피연산자 %d\n", integer);
+		//	printf("push 피연산자 %d\n", integer);
 		}
 		
 	}
 
-	printf("결과값: %d\n", pop(&s));	//최종 결과값은 스택 마지막에 남은 값
+	printf("=%d\n", pop(&s));	//최종 결과값은 스택 마지막에 남은 값
+
+}
+
+int CatchError(char str[])
+{
+	int i;
+	int len = strlen(str);
+	int index = 0;
+
+	for (i = 0; i < len; i++)
+	{
+		if(i < len - 1)
+			if (prec(str[i]) > 2 && prec(str[i + 1]) > 2)
+			{
+				if (str[i] == '*' && str[i + 1] == '*')
+					continue;
+				else
+					return i;
+			}
+		else if (prec(str[i]) == 1)
+			index++;
+		else if (prec(str[i]) == 2)
+			index--;
+	}
+
+	if (index > 0)
+		return 1;
+	else if (index < 0)
+		return 2;
+
+
+	return -1;
 
 }
 int main(void)
 {
 	char * i_str = { "(11+3)*2**3-12" };		//infix str
 	char * p_str;	// postfix str
-	
+	int Error;
 	printf("중위수식 표현: %s\n", i_str);
+
+	int strLen = strlen(i_str);
+
+	Error = CatchError(i_str);
+
+	if (Error != -1)
+	{
+		switch (Error)
+		{
+		case 1:
+			printf("%s(!) 이 위치에 오류가 있습니다. )가 부족합니다.\n", i_str);
+			break;
+		case 2:
+			printf("(!)%s 이 위치에 오류가 있습니다. (가 부족합니다.\n", i_str);
+			break;
+		default:
+			for (int i = 0; i < strLen; i++)
+			{
+				if (i == Error)
+				{
+					printf("%c(!)", i_str[i]);
+				}
+				else
+					printf("%c", i_str[i]);
+			}
+			printf(" 이 위치에 오류가 있습니다. 숫자가 와야 합니다.\n");
+		}
+		
+		
+		
+		system("pause");
+		return 0;
+	}
 
 	p_str = infix_to_postfix(i_str);	// 중위 -> 후위로 변환
 

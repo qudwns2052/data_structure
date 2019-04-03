@@ -1,82 +1,52 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define len 4
+
+// stack push pop set find check 
 typedef int data;
 
 typedef struct stack
 {
-	data data[len];
 	int count;
+	data * stack;
 }stack;
 
-void setstack(stack * pstack)
+void set(stack * pstack)
 {
 	pstack->count = -1;
-	pstack->data[len] = { 0, };
+	pstack->stack = (int *)malloc(sizeof(int) * ((pstack->count) + 2));
 };
 
-int scheck(stack * pstack)
+void stackmemory(stack * pstack)
 {
-	if (pstack->count < len)
-	{
-		return 1;
-	}
-
-	else
-	{
-		return -1;
-	}
+	realloc(pstack->stack, sizeof(int)*((pstack->count) + 2));
 };
 
 void push(stack * pstack, data num)
 {
-	if (scheck(pstack) == 1)
-	{
-		pstack->count++;
-		pstack->data[pstack->count] = num;
-	}
-	else if (scheck(pstack) == -1)
-	{
-		printf("½ºÅÃÀÌ ²Ë Ã¡½À´Ï´Ù.");
-	}
+	stackmemory(pstack);
+	pstack->count = pstack->count + 1;
+	pstack->stack[pstack->count] = num;
 };
 
 int pop(stack * pstack)
 {
-	int temp = pstack->data[pstack->count];
-	//pstack->data[pstack->count] = 0;
-	pstack->count = pstack->count - 1;
+	int temp = pstack->stack[pstack->count];
+	pstack->count--;
 	return temp;
 };
 
-int find(stack * pstack, int num)
-{
-	for (int i = 0; i < pstack->count; i++)
-	{
-		if (pstack->data[i] == num)
-		{
-			return num;
-		}
-	}
 
-	return -1;
-};
 
 int main()
 {
+	stack stack;
 	int a = 0;
-	struct stack stack;
-	setstack(&stack);
-
-	for (int i = 0; i < len; i++)
+	set(&stack);
+	for (int i = 0; i < 3; i++)
 	{
 		scanf("%d", &a);
 		push(&stack, a);
 	}
 
-	printf("%d\n", pop(&stack));
-	printf("%d\n", pop(&stack));
-
-	printf("%d", find(&stack, 5));
-
+	printf("%d", pop(&stack));
 }
