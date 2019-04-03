@@ -153,8 +153,7 @@ void Calculate(char str[])	//후위수식 계산하기
 	int op1, op2;	//피연산자 2개 pop 받으려고 선언
 	int integer;	//숫자를 받음
 	int result;	// 연산결과
-	char temp[4];	//최대 4자리수 피연산자 또는 연산자
-
+	int m_temp = 1;	// ! 일때 값 저장
 	int len = strlen(str);
 
 	StackType s;
@@ -165,6 +164,7 @@ void Calculate(char str[])	//후위수식 계산하기
 	for (i = 0; i< len; i++)
 	{
 		idx = 0;
+		char temp[4] = { 0, };	//최대 4자리수 피연산자 또는 연산자 + 매번 초기화
 		while (1)
 		{
 			if ((str[i] == ' ') || (str[i] == '\0'))	// 공백 만나거나 str 끝나거나 -> 종료
@@ -196,11 +196,11 @@ void Calculate(char str[])	//후위수식 계산하기
 				result = op1 - op2;
 				break;
 			case '!':
-				for (int j = 0; j < op2 - 1; j++)
+				for (int j = 0; j < op2 ; j++)
 				{
-					op1 *= op1;
+					m_temp *= op1;
 				}
-				result = op1;
+				result = m_temp;
 				break;
 			}
 
@@ -221,7 +221,7 @@ void Calculate(char str[])	//후위수식 계산하기
 }
 int main(void)
 {
-	char * i_str = { "2+(3*4)**2-12" };		//infix str
+	char * i_str = { "(11+3)*2**3-12" };		//infix str
 	char * p_str;	// postfix str
 	
 	printf("중위수식 표현: %s\n", i_str);
