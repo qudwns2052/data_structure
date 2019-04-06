@@ -1,4 +1,4 @@
-﻿  assignment6.c
-c:\users\goka\documents\visual studio 2017\projects\data_structure\190403\assignment6.c(40): warning C4996: 'itoa': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _itoa. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdlib.h(1323): note: 'itoa' 선언을 참조하십시오.
+﻿  assignment4.c
+c:\users\goka\documents\visual studio 2017\projects\data_structure\190403\assignment4.c(47): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1274): note: 'scanf' 선언을 참조하십시오.
   190403.vcxproj -> C:\Users\GOKA\Documents\Visual Studio 2017\Projects\data_structure\190403\Debug\190403.exe
