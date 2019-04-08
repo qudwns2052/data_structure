@@ -6,7 +6,7 @@
 int ftop = -1;	// 첫번째 스택 top 인덱스
 int stop = -1;	// 두번째 스택 top 인덱스
 int ftrain[MAX_SIZE];	// 첫번째 스택 선언
-int strain[MAX_SIZE];
+int strain[MAX_SIZE];	// 두번째 스택 선언
 
 int FPush(int data)	// 첫번째 스택에 데이터 추가 함수
 {
@@ -68,7 +68,9 @@ void Count(void)	// 횟수 조절 함수
 }
 int main(void)
 {
-	int str[MAX_SIZE];	// 열차 번호들을 int형 배열 선언
+	int train;	// 열차 번호들을 한번에 받을 int 변수 선언
+	int arr[MAX_SIZE]; // 열차 번호들을 저장할 int형 배열 선언
+	int arr_cnt = 1;	// arr 배열에 번호들을 넣기 위해 변수 선언
 	int i;
 	
 	int value1 = 0;	// 첫번째 스택의 맨 위 데이터 저장
@@ -78,11 +80,21 @@ int main(void)
 
 	
 
-	printf("열차 번호 입력 : ");
+	printf("열차 번호 입력 : "); // 열차 번호를 입력 받음
 	
-	for (i = 0; i < MAX_SIZE; i++)	// 열차 번호를 입력 받음
+	scanf("%d", &train);
+
+	for (i = 0; i < MAX_SIZE - 1; i++)	// 번호가 9자리 이므로 arr_cnt 자리수를 맞춰줌 
 	{
-		scanf("%d", &str[i]);
+		arr_cnt *= 10;
+		
+	}	// arr_cnt의 자리수는 train의 맨 앞 자리수와 맞춰짐
+
+	for (i = 0; i < MAX_SIZE; i++)	// 열차 번호를 arr 배열로 옮김
+	{
+		arr[i] = train / arr_cnt;	// 몫을 통해 제일 앞에 있는 수를 구해 arr에 저장
+		train -= arr[i] * arr_cnt;	// train에서 맨 앞자리를 제거
+		arr_cnt /= 10;	// arr_cnt의 자리수를 하나 낮춰줌
 	}
 
 	i = -1;	// 위에 반복문에서 i 값이 바뀌었기 때문에, -1로 초기화
@@ -163,36 +175,36 @@ int main(void)
 		else  // 들어오는 열차가 있으면
 		{
 			Count();
-			printf("%d%d : IN(%d)\n", cnt1, cnt2, str[i]);
+			printf("%d%d : IN(%d)\n", cnt1, cnt2, arr[i]);
 
 
-			if ((str[i]) == nextout)	// 들어오자마자 나갈 때
+			if ((arr[i]) == nextout)	// 들어오자마자 나갈 때
 			{
 				Count();
-				printf("%d%d : OUT(%d)\n", cnt1, cnt2, str[i]);
+				printf("%d%d : OUT(%d)\n", cnt1, cnt2, arr[i]);
 				nextout++;	// 열차가 하나 나갔으니, 다음 열차 인덱스로 변경
 			}
 			else if (i == 0)	// 첫번째 열차일 경우, 바로 나가지 않는다면, 첫번째 스택에 저장
 			{
-				value1 = FPush(str[i]);
+				value1 = FPush(arr[i]);
 				Count();
 				printf("%d%d : PUSH(1, %d)\n", cnt1, cnt2, value1);
 			}
 			else if (i == 1)	// 두번째 열차일 경우, 바로 나가지 않는다면, 두번째 스택에 저장
 			{
-				value2 = SPush(str[i]);
+				value2 = SPush(arr[i]);
 				Count();
 				printf("%d%d : PUSH(2, %d)\n", cnt1, cnt2, value2);
 			}
 			else if (value1 >= value2) // 첫번째 스택의 맨 위 값이 두번째 스택의 맨 위 값보다 클 경우 -> 첫번째 스택에 열차를 넣는 것이 유리함 -> Because, 첫번째 스택의 맨 위보다 두번째 스택의 맨 위가 먼저 밖으로 나가야 하기 때문
 			{
-				value1 = FPush(str[i]);	// 첫번재 스택에 열차를 저장하고, value1 값을 변경
+				value1 = FPush(arr[i]);	// 첫번재 스택에 열차를 저장하고, value1 값을 변경
 				Count();
 				printf("%d%d : PUSH(1, %d)\n", cnt1, cnt2, value1);
 			}
 			else  // 바로 위와 정 반대일 경우
 			{
-				value2 = SPush(str[i]);
+				value2 = SPush(arr[i]);
 				Count();
 				printf("%d%d : PUSH(2, %d)\n", cnt1, cnt2, value2);
 			}

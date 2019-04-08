@@ -1,52 +1,75 @@
 #include <stdio.h>
 #include <stdlib.h>
+// push pop set memory
 
-// stack push pop set find check 
-typedef int data;
+typedef int num;
 
-typedef struct stack
+typedef struct data
 {
 	int count;
-	data * stack;
-}stack;
+	num * data;
+}data;
 
-void set(stack * pstack)
+void set(data * pdata)
 {
-	pstack->count = -1;
-	pstack->stack = (int *)malloc(sizeof(int) * ((pstack->count) + 2));
+	pdata->count = -1;
+	pdata->data = (int *)malloc(sizeof(int) * ((pdata->count) + 2));
 };
 
-void stackmemory(stack * pstack)
+void memory(data * pdata)
 {
-	realloc(pstack->stack, sizeof(int)*((pstack->count) + 2));
+	realloc(pdata->data, sizeof(num) * ((pdata->count + 2)));
 };
 
-void push(stack * pstack, data num)
+void push(data * pdata, int num)
 {
-	stackmemory(pstack);
-	pstack->count = pstack->count + 1;
-	pstack->stack[pstack->count] = num;
+	memory(pdata);
+	pdata->count = pdata->count + 1;
+	pdata->data[pdata->count] = num;
 };
 
-int pop(stack * pstack)
+int pop(data * pdata)
 {
-	int temp = pstack->stack[pstack->count];
-	pstack->count--;
-	return temp;
+	int temp;
+	if (pdata->count != -1)
+	{
+		temp = pdata->data[pdata->count];
+		pdata->data[pdata->count] = 0;
+		pdata->count = pdata->count - 1;
+		return temp;
+	}
 };
-
-
 
 int main()
 {
-	stack stack;
 	int a = 0;
-	set(&stack);
-	for (int i = 0; i < 3; i++)
+	int odd = 0;
+	int even = 0;
+	data evenstack;
+	data oddstack;
+	set(&evenstack);
+	set(&oddstack);
+
+	for (int i = 0; i < 10; i++)
 	{
 		scanf("%d", &a);
-		push(&stack, a);
+
+		if (a % 2 == 1)
+		{
+			push(&oddstack, a);
+			printf("Ȧ : %d\n", pop(&oddstack));
+		}
+
+		else if (a % 2 == 0)
+		{
+			push(&evenstack, a);
+			printf("¦ : %d \n", pop(&evenstack));
+		}
+
+		fflush(stdin);
 	}
 
-	printf("%d", pop(&stack));
+
+	system("pause");
+	return 0;
 }
