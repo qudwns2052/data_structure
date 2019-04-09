@@ -1,42 +1,58 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <windows.h>
 
-#define MAX_SIZE 20	// 큐의 최대 크기
+#define MAX_SIZE 21 // 큐의 최대 크기 (20이 아닌 21을 해준 이유는 원형큐를 만들 시에, 비어있는 경우와 꽉 찬 경우를 둘다 확인하기 위함)
 
-int findex = -1;	// 큐의 첫번째 인덱스	(In index)
-int sindex = 0;		// 큐의 두번째 인덱스	(Out index)
+int findex = 0;	// 큐의 첫번째 인덱스	(In index)
+int sindex = 0;	// 큐의 두번째 인덱스	(Out index)
 					// 큐는 FIFO이므로, 앞 뒤 각각을 가리키는 인덱스가 필요하다고 생각
+int cnt = 0;	// 큐에 존재하는 요소 개수
 char Queue[MAX_SIZE];	// 큐 생성
 
 void ADDQUEUE(char ch)	// 큐에 데이터를 추가하는 함수
 {
-	if (findex - sindex >= MAX_SIZE -1)	// 큐가 꽉 찼으면
+	if ((findex + 1 % MAX_SIZE) == sindex)	// 큐가 꽉 찼으면
 	{
-		printf("ADDQUEUE(%c) Fail : Queue Full  Queue Size=20/20\n", ch);	// 큐에 데이터 추가 실패 메세지 출력
+		printf("ADDQUEUE(%c) Fail : Queue Full  Queue Size=%d/20\n", ch, cnt);	// 큐에 데이터 추가 실패 메세지 출력
 		return;
 	}
-	Queue[++findex] = ch;	// first 인덱스 증가 후 큐에 데이터 추가
-	printf("ADDQUEUE(%c)	Queue Size=%d/20\n", ch, findex - sindex + 1);	// 큐에 데이터 추가 성공 메세지
+
+	findex++;
+
+	findex = findex % MAX_SIZE;
+
+	Queue[findex] = ch;	// first 인덱스 증가 후 큐에 데이터 추가
+
+	cnt++;
+
+	printf("ADDQUEUE(%c)	Queue Size=%d/20\n", ch, cnt);	// 큐에 데이터 추가 성공 메세지
 
 }
 
 void DELETEQUEUE(void)	// 큐에 데이터를 빼는 함수
 {
-	if (findex + 1 <= sindex)	// 큐가 비어있으면
+	if (findex == sindex)	// 큐가 비어있으면
 	{
-		printf("DELETEQUEUE() Fail : Queue Empty  Queue Size=0/20\n");	// 큐에 데이터 빼기 실패 메세지
+		printf("DELETEQUEUE() Fail : Queue Empty  Queue Size=%d/20\n", cnt);	// 큐에 데이터 빼기 실패 메세지
 		return;
 	}
 
-	printf("DELETEQUEUE() = %c, Queue Size=%d/20\n", Queue[sindex], findex - sindex);	// 큐에 데이터 빼기 성공 메세지
-	sindex++;	// second 인덱스 증가
+	sindex++;  // second 인덱스 증가
+	
+	sindex = sindex % MAX_SIZE;
+
+	cnt--;
+
+	printf("DELETEQUEUE() = %c, Queue Size=%d/20\n", Queue[sindex], cnt);	// 큐에 데이터 빼기 성공 메세지
+
 
 }
 
 int main(void)
 {
-	char str[MAX_SIZE];	// 키보드로부터 입력 받은 내용을 저장할 배열
+	char str[20];	// 키보드로부터 입력 받은 내용을 저장할 배열
 	int i;
 	int num;	// 숫자 입력 시 num으로 변환 후 num 수만큼 DELETEQUEUE 진행
 	int strLen;	// str 문자열의 길이를 계산할 변수
@@ -46,7 +62,7 @@ int main(void)
 		printf(">>> ");
 		scanf("%s", str);	// scanf로 문자열 입력 받음
 		strLen = strlen(str);	// str 문자열 길이 저장
-		if (strLen > MAX_SIZE)	// 만약, 20글자가 넘으면
+		if (strLen > 20)	// 만약, 20글자가 넘으면
 		{
 			printf("입력 문자열 크기 : %d >>> ERROR (MAX_SIZE is 20)\n", strLen);	// 에러메세지 출력
 			continue;	// 위에서부터 다시 진행
