@@ -1,14 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <windows.h>
 
 #define MAX_SIZE 21 // 큐의 최대 크기 (20이 아닌 21을 해준 이유는 원형큐를 만들 시에, 비어있는 경우와 꽉 찬 경우를 둘다 확인하기 위함)
 
 int findex = 0;	// 큐의 첫번째 인덱스	(In index)
 int sindex = 0;	// 큐의 두번째 인덱스	(Out index)
 					// 큐는 FIFO이므로, 앞 뒤 각각을 가리키는 인덱스가 필요하다고 생각
-int cnt = 0;	// 큐에 존재하는 요소 개수
+int cnt = 0;	// 큐에 존재하는 요소 개수를 카운트하는 변수
 char Queue[MAX_SIZE];	// 큐 생성
 
 void ADDQUEUE(char ch)	// 큐에 데이터를 추가하는 함수
@@ -19,9 +18,9 @@ void ADDQUEUE(char ch)	// 큐에 데이터를 추가하는 함수
 		return;
 	}
 
-	findex++;
+	findex++;	//Queue[0]을 처음에 비우고 시작하기 위함
 
-	findex = findex % MAX_SIZE;
+	findex = findex % MAX_SIZE;	// findex의 범위를 0 ~ 20으로 만들기 위함 (원형큐이기 때문)
 
 	Queue[findex] = ch;	// first 인덱스 증가 후 큐에 데이터 추가
 
@@ -41,7 +40,7 @@ void DELETEQUEUE(void)	// 큐에 데이터를 빼는 함수
 
 	sindex++;  // second 인덱스 증가
 	
-	sindex = sindex % MAX_SIZE;
+	sindex = sindex % MAX_SIZE;	// sindex의 범위를 0 ~ 20으로 만들기 위함 (원형큐이기 때문)
 
 	cnt--;
 
@@ -90,6 +89,6 @@ int main(void)
 		
 	}
 
-	system("pause");
+
 	return 0;
 }
