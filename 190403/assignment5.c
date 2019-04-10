@@ -4,8 +4,8 @@
 #include <time.h>
 #include <string.h>
 
-#define DATA_LEN 50000
-#define id_LEN 10
+#define DATA_LEN 50000 // 데이터 5만명 분을 받기 위해 데이터 길이를 정함
+#define id_LEN 10 // 학번을 int형이 아닌, 문자열처럼 만들기 위해 길이가 9에 1을 더한 10으로 설정
 #define name_LEN 11
 #define phone_LEN 11
 
