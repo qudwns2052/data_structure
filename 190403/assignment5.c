@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
-#include <time.h>
 
 #define DATA_LEN 50000
 #define id_LEN 10
@@ -60,7 +59,7 @@ void Initstudent(Student * student)
 void Printstudent(Student * student)
 {
 	int i, j;
-	for (i = 0; i < DATA_LEN; i++)
+	for (i = 0; i < DATA_LEN; i += 500)
 	{
 		printf("id=%s ", (student + i)->id);
 		printf("  name=%s  ", (student + i)->name);
@@ -143,7 +142,7 @@ void Select_Sort(Student * student)
 	Select_Sort_id(student);
 	end = clock();
 	printf("\nSelect Sort !\n\n학번 순으로 정렬\n---------------------------------\n");
-//	Printstudent(student);
+	Printstudent(student);
 	printf("\n>>>학번 선택정렬 소요시간: %.3lf초\n---------------------------------\n", (end - start) / (double)1000);
 
 
@@ -151,7 +150,7 @@ void Select_Sort(Student * student)
 	Select_Sort_name(student);
 	end = clock();
 	printf("\n이름 순으로 정렬\n---------------------------------\n");
-//	Printstudent(student);
+	Printstudent(student);
 	printf("\n>>>이름 선택정렬 소요시간: %.3lf초\n---------------------------------\n", (end - start) / (double)1000);
 }
 
@@ -199,7 +198,7 @@ void Bubble_Sort(Student * student)
 	Bubble_Sort_id(student);
 	end = clock();
 	printf("\nBubble Sort !\n\n학번 순으로 정렬\n---------------------------------\n");
-//	Printstudent(student);
+	Printstudent(student);
 	printf("\n>>>학번 선택정렬 소요시간: %.3lf초\n---------------------------------\n", (end - start) / (double)1000);
 
 
@@ -207,7 +206,7 @@ void Bubble_Sort(Student * student)
 	Bubble_Sort_name(student);
 	end = clock();
 	printf("\n이름 순으로 정렬\n---------------------------------\n");
-//	Printstudent(student);
+	Printstudent(student);
 	printf("\n>>>이름 선택정렬 소요시간: %.3lf초\n---------------------------------\n", (end - start) / (double)1000);
 }
 
@@ -295,14 +294,14 @@ void Quick_Sort(Student * student)
 	Quick_Sort_id(student, 0, DATA_LEN - 1);
 	end = clock();
 	printf("\nQuick Sort !\n\n학번 순으로 정렬\n---------------------------------\n");
-//	Printstudent(student);
+	Printstudent(student);
 	printf("\n>>>학번 선택정렬 소요시간: %.3lf초\n---------------------------------\n", (end - start) / (double)1000);
 		
 	start = clock();
 	Quick_Sort_name(student, 0, DATA_LEN - 1);
 	end = clock();
 	printf("\n이름 순으로 정렬\n---------------------------------\n");
-//	Printstudent(student);
+	Printstudent(student);
 	printf("\n>>>이름 선택정렬 소요시간: %.3lf초\n---------------------------------\n", (end - start) / (double)1000);
 
 }
@@ -435,7 +434,7 @@ void Heap_Sort(Student * student)
 	Heap_Sort_id(student);
 	end = clock();
 	printf("\nHeap Sort !\n\n학번 순으로 정렬\n---------------------------------\n");
-//	Printstudent(student);
+	Printstudent(student);
 	printf("\n>>>학번 선택정렬 소요시간: %.3lf초\n---------------------------------\n", (end - start) / (double)1000);
 	
 	
@@ -443,7 +442,7 @@ void Heap_Sort(Student * student)
 	Heap_Sort_name(student);
 	end = clock();
 	printf("\n이름 순으로 정렬\n---------------------------------\n");
-//	Printstudent(student);
+	Printstudent(student);
 	printf("\n>>>이름 선택정렬 소요시간: %.3lf초\n---------------------------------\n", (end - start) / (double)1000);
 
 }
@@ -468,7 +467,7 @@ int main(void)
 	
 	
 	Select_Sort(student);
-	Bubble_Sort(student);
+//	Bubble_Sort(student);
 	Quick_Sort(student);
 	Heap_Sort(student);
 
