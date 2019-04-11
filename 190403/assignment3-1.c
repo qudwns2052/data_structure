@@ -141,12 +141,12 @@ int main(void)
 					}
 					else  // 두 스택의 맨 위 둘 중 하나라도 못 나가는 상황이면
 					{
-						if (ftop < stop)	// 두 스택 중 하나의 스택을 1개만 남겨놓고 다 뒤진다.
+						if (ftop < stop)	// 왼쪽 스택이 더 많으면, 왼쪽 스택이 1개만 남을 때 까지 뒤진다.
 						{
 							while (value2 != nextout && stop != 0)
 							{
 								value1 = FPush(SPop());	// 두번째 스택 Pop 후 이를 첫번째 스택에 Push
-								value2 = SPeek();
+								value2 = SPeek();	// 두번째 스택 top 값 조정
 
 								Count();
 								printf("%d%d : POP(2)\n", cnt1, cnt2);
@@ -155,7 +155,7 @@ int main(void)
 								printf("%d%d : PUSH(1, %d)\n", cnt1, cnt2, value1);
 							}
 						}
-						else    // 아니면 나머지 하나의 스택을 1개만 남겨놓고 다 뒤진다.
+						else    // 오른쪽 스택이 더 많거나, 두 스택이 같으면, 오른쪽 스택이 1개만 남을 때 까지 뒤진다.
 						{
 							while (value1 != nextout && ftop != 0)
 							{
@@ -192,13 +192,13 @@ int main(void)
 			}
 			else	// 첫번째 열차일 경우, 바로 나가지 않는다면, 첫번째 스택에 저장
 			{
-				if (FPeek() == -1)
+				if (FPeek() == -1)	// 오른쪽 스택이 비어있는 상태면, 첫번째 스택에 저장
 				{
 					value1 = FPush(arr[i]);
 					Count();
 					printf("%d%d : PUSH(1, %d)\n", cnt1, cnt2, value1);
 				}
-				else
+				else  // 바로 위와 반대면, 두번째 스택에 저장
 				{
 					value2 = SPush(arr[i]);
 					Count();
