@@ -1,41 +1,48 @@
 #include<stdio.h>
 #include<stdlib.h>
-#include<windows.h>
-
+#include<time.h>
 typedef int element;
-int size; // 추가부분
 typedef struct
 {
-	element *data;
+	element* data;
 	int top;
+	int size;
 }stack;
 
-void push(stack* s, element item)
+
+void push(stack* s, element e)
 {
-	s->top++;
-	size = s->top + 2; //추가부분
-	s->data = (element*)realloc(s->data, size * sizeof(element)); //변경부분
-	s->data[s->top] = item;
-	printf("%d", item);
+	s->data = (element*)realloc(s->data, s->size * sizeof(element));
+	s->data[++(s->top)] = e;
+	s->size++;
+	printf("%d", s->data[s->top]);
 }
 
-element pop(stack* s)
+void pop(stack* s)
 {
-	if (s->top < 0) exit(0);
-	else return s->data[(s->top)--];
+	if (s->top < 0)   exit(1);
+	else printf("%d", s->data[(s->top)--]);
 }
 
 int main()
 {
-	stack s;
-	s.top = -1;	//top초기화
-	s.data = (element*)malloc(sizeof(element));
-	push(&s, 2);
-	push(&s, 4);
-	push(&s, 5);
-	printf("\n\n%d", pop(&s));
-	free(s.data);
+	stack* even;
+	even->data = (element*)malloc(sizeof(element));
+	stack* odd;
+	odd->data = (element*)malloc(sizeof(element));
+	even->top = -1;   even->size = even->top + 2;
+	odd->top = -1;    odd->size = odd->top + 2;
+	srand((unsigned)time(NULL));
 
-	system("pause");
-	return 0;
+	for (int i = 0; i < 10; i++)
+	{
+		int e = rand() % 100;
+		if (e % 2 == 0)   push(even, e);
+		else   push(odd, e);
+	}
+	pop(even);
+	pop(odd);
+
+	free(even->data); free(odd->data);
+
 }

@@ -141,13 +141,13 @@ int main(void)
 					}
 					else  // 두 스택의 맨 위 둘 중 하나라도 못 나가는 상황이면
 					{
-						if (ftop < stop)	// 두 스택 중 하나는 하나의 값만, 다른 하나는 나머지 값들을 저장하고 있으므로, 만약 두번째 스택이 나머지를 저장하고 있으면
+						if (ftop < stop)	// 두 스택 중 하나의 스택을 1개만 남겨놓고 다 뒤진다.
 						{
-							while (value2 != nextout)
+							while (value2 != nextout && stop != 0)
 							{
 								value1 = FPush(SPop());	// 두번째 스택 Pop 후 이를 첫번째 스택에 Push
 								value2 = SPeek();
-								
+
 								Count();
 								printf("%d%d : POP(2)\n", cnt1, cnt2);
 
@@ -155,9 +155,9 @@ int main(void)
 								printf("%d%d : PUSH(1, %d)\n", cnt1, cnt2, value1);
 							}
 						}
-						else if (ftop > stop)	// 첫번째 스택이 나머지를 저장하고 있으면
+						else    // 아니면 나머지 하나의 스택을 1개만 남겨놓고 다 뒤진다.
 						{
-							while (value1 != nextout)
+							while (value1 != nextout && ftop != 0)
 							{
 								value2 = SPush(FPop());
 								value1 = FPeek();
