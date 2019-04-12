@@ -459,18 +459,16 @@ int main(void)
 
 	int j = 1;
 	int before_number = 0;	// 맨 처음 학생 초기화시에는, before이 존재하지 않으므로, 0으로 초기화
-	int now_number;
+	int now_number = 0;
 
 	for (int i = 0; i < DATA_LEN; i++)
 	{
 		Initstudent(&student[i]);
 		
-		int number = 0;
-		int subidx = 1;
-
-
 		// 주석 아직 미완성
-/*
+
+/*		int number = 0;
+		int subidx = 1;
 		for (int k = 3; k < phone_LEN; k++)	// 예외처리. 핸드폰 number를 하나의 int형으로 받아옴
 		{
 			number += subidx * (student + i)->number[phone_LEN + 2 - k];
