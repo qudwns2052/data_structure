@@ -122,7 +122,7 @@ void Quick_Sort_id1(Student * student, int left, int right)	// 퀵 학번 정렬 (재�
 }
 
 	// 퀵 비재귀
-#define STACK_LEN 10*DATA_LEN	// 퀵 비재귀 구현을 위해, 스택을 활용. 스택의 크기 선언
+#define STACK_LEN 100*DATA_LEN	// 퀵 비재귀 구현을 위해, 스택을 활용. 스택의 크기 선언
 
 int Stack[STACK_LEN];	// 스택 선언
 int topindex;	// 스택의 맨 위 인덱스를 가리키는 변수 선언
@@ -239,39 +239,34 @@ int main(void)
 
 	copy_student = (Student*)malloc(sizeof(Student)*DATA_LEN);
 
-	int before_number = 0;	// 맨 처음 학생 초기화시에는, before이 존재하지 않으므로, 0으로 초기화
-	int now_number = 0;
+	printf("5만명의 데이터를 생성중입니다. 잠시 기다려 주세요!\n\n");
 
 	for (int i = 0; i < DATA_LEN; i++)
 	{
 		Initstudent(&student[i]);
 
-		// 주석 아직 미완성
-		/*
-		int number = 0;
-		int subidx = 1;
-		for (int k = 3; k < phone_LEN; k++)	// 예외처리. 핸드폰 number를 하나의 int형으로 받아옴
+		if (i != 0)	// 맨 처음은 겹치는게 없으므로 i가 0일 때 제외
 		{
-			number += subidx * (student + i)->number[phone_LEN + 2 - k];
-			subidx *= 10;
-		}
+			for (int k = 0; k < i; k++)	// 예외처리. 0부터 ~ 방금 만든 인덱스 전까지 반복 / 전화번호
+			{
+				int cnt = 0;	// 전화번호가 한자리라도 다르면 표시하기 위한 변수
 
-		now_number = number;	// 현재 인덱스의 핸드폰 number를 받음
+				for (int z = 0; z < phone_LEN; z++)
+				{
+					if ((student + k)->number[z] != (student + i)->number[z])
+					{
+						cnt++;
+						break;
+					}
+				}
 
-		if (before_number == now_number)	// 만약, 바로 전 인덱스의 핸드폰 number와 같으면
-		{
-			i--;	// 현재 인덱스 다시 초기화
-		}
-		else
-		{
-			before_number = now_number;	// 현재 인덱스 핸드폰 값을 before_numver 변수와 같게 함
-		}
-*/
+				if (cnt == 0)
+				{
+					i--;
+				}
+			}
 
-
-		if (i != 0)
-		{
-			for (int k = 0; k < i; k++)	// 0부터 ~ 방금 만든 인덱스 전까지 반복
+			for (int k = 0; k < i; k++)	// 예외처리. 0부터 ~ 방금 만든 인덱스 전까지 반복 / 학번
 			{
 				if ((student + k)->id == (student + i)->id)	// id가 같으면,
 				{

@@ -369,61 +369,61 @@ void Heap_Sort_id(Student *student)
 
 void Heap_Sort_name(Student *student)
 {
-	int i;
-	int curpos;
-	int parentpos;
+int i;
+int curpos;
+int parentpos;
 
-	for (i = 0; i < DATA_LEN; i++)
+for (i = 0; i < DATA_LEN; i++)
+{
+	curpos = i;
+	parentpos = (curpos - 1) / 2;
+	while (curpos > 0 && strcmp((student + parentpos)->name, (student + curpos)->name) < 0) //부모의 우선순위가 현재의 우선순위보다 낮으면 바꿈
 	{
-		curpos = i;
+		Swap_Student(&student[parentpos], &student[curpos]);
+		curpos = parentpos;
 		parentpos = (curpos - 1) / 2;
-		while (curpos > 0 && strcmp((student + parentpos)->name, (student + curpos)->name) < 0) //부모의 우선순위가 현재의 우선순위보다 낮으면 바꿈
-		{
-			Swap_Student(&student[parentpos], &student[curpos]);
-			curpos = parentpos;
-			parentpos = (curpos - 1) / 2;
-		}
 	}
+}
 
-	int pos = DATA_LEN;
+int pos = DATA_LEN;
 
 
-	while (pos > 0)
+while (pos > 0)
+{
+	Student temp;
+
+	memcpy(&temp, &student[0], sizeof(Student));
+
+	pos--;
+	memcpy(&student[0], &student[pos], sizeof(Student));
+
+	parentpos = 0;
+
+	while (1)
 	{
-		Student temp;
+		int leftpos = parentpos * 2 + 1;
+		int rightpos = leftpos + 1;
 
-		memcpy(&temp, &student[0], sizeof(Student));
+		if (leftpos >= pos)
+			break;
 
-		pos--;
-		memcpy(&student[0], &student[pos], sizeof(Student));
 
-		parentpos = 0;
-
-		while (1)
+		if (rightpos >= pos || strcmp((student + leftpos)->name, (student + rightpos)->name) >= 0 && strcmp((student + leftpos)->name, (student + parentpos)->name) > 0)
 		{
-			int leftpos = parentpos * 2 + 1;
-			int rightpos = leftpos + 1;
-
-			if (leftpos >= pos)
-				break;
-
-
-			if (rightpos >= pos || strcmp((student + leftpos)->name, (student + rightpos)->name) >= 0 && strcmp((student + leftpos)->name, (student + parentpos)->name) > 0)
-			{
-				Swap_Student(&student[parentpos], &student[leftpos]);
-				parentpos = leftpos;
-			}
-			else if (strcmp((student + rightpos)->name, (student + leftpos)->name) > 0 && strcmp((student + rightpos)->name, (student + parentpos)->name) > 0)
-			{
-				Swap_Student(&student[parentpos], &student[rightpos]);
-				parentpos = rightpos;
-			}
-			else
-				break;
+			Swap_Student(&student[parentpos], &student[leftpos]);
+			parentpos = leftpos;
 		}
-
-		memcpy(&student[pos], &temp, sizeof(Student));
+		else if (strcmp((student + rightpos)->name, (student + leftpos)->name) > 0 && strcmp((student + rightpos)->name, (student + parentpos)->name) > 0)
+		{
+			Swap_Student(&student[parentpos], &student[rightpos]);
+			parentpos = rightpos;
+		}
+		else
+			break;
 	}
+
+	memcpy(&student[pos], &temp, sizeof(Student));
+}
 }
 
 void Heap_Sort(Student * student)	// 힙 정렬 함수 (선택 정렬 함수와 같음)
@@ -457,40 +457,34 @@ int main(void)
 
 	student = (Student*)malloc(sizeof(Student)*DATA_LEN);
 
-	int j = 1;
-	int before_number = 0;	// 맨 처음 학생 초기화시에는, before이 존재하지 않으므로, 0으로 초기화
-	int now_number = 0;
+	printf("5만명의 데이터를 생성중입니다. 잠시 기다려 주세요!\n\n");
 
 	for (int i = 0; i < DATA_LEN; i++)
 	{
 		Initstudent(&student[i]);
-		
-		// 주석 아직 미완성
 
-/*		int number = 0;
-		int subidx = 1;
-		for (int k = 3; k < phone_LEN; k++)	// 예외처리. 핸드폰 number를 하나의 int형으로 받아옴
+		if (i != 0)	// 맨 처음은 겹치는게 없으므로 i가 0일 때 제외
 		{
-			number += subidx * (student + i)->number[phone_LEN + 2 - k];
-			subidx *= 10;
-		}
+			for (int k = 0; k < i; k++)	// 예외처리. 0부터 ~ 방금 만든 인덱스 전까지 반복 / 전화번호
+			{
+				int cnt = 0;	// 전화번호가 한자리라도 다르면 표시하기 위한 변수
+			
+				for (int z = 0; z < phone_LEN; z++)	
+				{
+					if ((student + k)->number[z] != (student + i)->number[z])
+					{
+						cnt++;
+						break;
+					}
+				}
+				
+				if (cnt == 0)
+				{
+					i--;
+				}
+			}
 
-		now_number = number;	// 현재 인덱스의 핸드폰 number를 받음
-
-		if (before_number == now_number)	// 만약, 바로 전 인덱스의 핸드폰 number와 같으면
-		{
-			i--;	// 현재 인덱스 다시 초기화
-		}
-		else
-		{
-			before_number = now_number;	// 현재 인덱스 핸드폰 값을 before_numver 변수와 같게 함
-		}
-*/
-
-		
-		if (i != 0)
-		{
-			for (int k = 0; k < i; k++)	// 0부터 ~ 방금 만든 인덱스 전까지 반복
+			for (int k = 0; k < i; k++)	// 예외처리. 0부터 ~ 방금 만든 인덱스 전까지 반복 / 학번
 			{
 				if ((student + k)->id == (student + i)->id)	// id가 같으면,
 				{
