@@ -1,2 +1,3 @@
-﻿  assignment6.c
+﻿  assignment5-1.c
+c:\users\goka\documents\visual studio 2017\projects\data_structure\190403\assignment5-1.c(462): warning C4101: 'now_number' :참조되지 않은 지역 변수입니다.
   190403.vcxproj -> C:\Users\GOKA\Documents\Visual Studio 2017\Projects\data_structure\190403\Debug\190403.exe

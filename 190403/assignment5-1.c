@@ -25,9 +25,11 @@ void Initstudent(Student * student)	//Student 구조체 초기화
 	int id[id_LEN];	//int 형 배열로 id를 만들기 위해 선언
 	int real_id = 0;	//바로 위의 id를 하나의 int로 받기 위해 선언
 	int subidx = 1;	// 자리수 조절하기 위한 변수
-	id[0] = 1;	//학번 첫째자리
-	id[1] = (rand() % 7) + 3;	//학번 둘째자리 (3~9)만 나옴
-	for (i = 2; i < id_LEN; i++)	// 학번 셋째자리부터는 랜덤 값 넣음
+	id[0] = 2;
+	id[1] = 0;
+	id[2] = 1;	//학번 첫째자리
+	id[3] = (rand() % 7) + 3;	//학번 둘째자리 (3~9)만 나옴
+	for (i = 4; i < id_LEN; i++)	// 학번 셋째자리부터는 랜덤 값 넣음
 	{
 		id[i] = rand() % 10;
 	}
@@ -45,6 +47,7 @@ void Initstudent(Student * student)	//Student 구조체 초기화
 	}
 	student->name[name_LEN - 1] = '\0';
 
+
 	student->number[0] = 0;	//전화번호 0 1 0 설정
 	student->number[1] = 1;
 	student->number[2] = 0;
@@ -52,18 +55,18 @@ void Initstudent(Student * student)	//Student 구조체 초기화
 	{
 		student->number[i] = rand() % 10;
 	}
-
+	
 }
 
 void Printstudent(Student * student)	// Student 정보 출력
 {
-	int i, j;
-	for (i = 0; i < DATA_LEN; i += 500)	// 500명씩 건너 뛰며 출력
+	for (int i = 0; i < DATA_LEN; i += 500)	// 500명씩 건너 뛰며 출력
 	{
 		printf("id=%d ", (student + i)->id);
 		printf("  name=%s  ", (student + i)->name);
-		printf("number= ");
-		for (j = 0; j < phone_LEN; j++)
+		printf("number=");
+		
+		for (int j = 0; j < phone_LEN; j++)
 		{
 			printf("%d", (student + i)->number[j]);
 		}
@@ -450,21 +453,63 @@ int main(void)
 {
 	srand((unsigned)time(NULL));
 
-	int i;
 	Student * student;
 
 	student = (Student*)malloc(sizeof(Student)*DATA_LEN);
 
-	for (i = 0; i < DATA_LEN; i++)
+	int j = 1;
+	int before_number = 0;	// 맨 처음 학생 초기화시에는, before이 존재하지 않으므로, 0으로 초기화
+	int now_number;
+
+	for (int i = 0; i < DATA_LEN; i++)
 	{
 		Initstudent(&student[i]);
+		
+		int number = 0;
+		int subidx = 1;
+
+
+		// 주석 아직 미완성
+/*
+		for (int k = 3; k < phone_LEN; k++)	// 예외처리. 핸드폰 number를 하나의 int형으로 받아옴
+		{
+			number += subidx * (student + i)->number[phone_LEN + 2 - k];
+			subidx *= 10;
+		}
+
+		now_number = number;	// 현재 인덱스의 핸드폰 number를 받음
+
+		if (before_number == now_number)	// 만약, 바로 전 인덱스의 핸드폰 number와 같으면
+		{
+			i--;	// 현재 인덱스 다시 초기화
+		}
+		else
+		{
+			before_number = now_number;	// 현재 인덱스 핸드폰 값을 before_numver 변수와 같게 함
+		}
+*/
+
+		
+		if (i != 0)
+		{
+			for (int k = 0; k < i; k++)	// 0부터 ~ 방금 만든 인덱스 전까지 반복
+			{
+				if ((student + k)->id == (student + i)->id)	// id가 같으면,
+				{
+					i--;	// 현재 인덱스 다시 초기화
+					break;	// for문 탈출
+				}
+			}
+		}
+	
+		
 	}
 
 	//	Printstudent(student);
 
 
-	Select_Sort(student);
-	//	Bubble_Sort(student);
+//	Select_Sort(student);
+//	Bubble_Sort(student);
 	Quick_Sort(student);
 	Heap_Sort(student);
 

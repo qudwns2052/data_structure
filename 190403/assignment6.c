@@ -118,17 +118,17 @@ void Quick_Sort_id1(Student * student, int left, int right)	// 퀵 학번 정렬 (재�
 		Quick_Sort_id1(student, L, right);
 }
 
+	// 퀵 비재귀
+#define STACK_LEN 10*DATA_LEN	// 퀵 비재귀 구현을 위해, 스택을 활용. 스택의 크기 선언
 
-#define STACK_LEN 10*DATA_LEN
+int Stack[STACK_LEN];	// 스택 선언
+int topindex;	// 스택의 맨 위 인덱스를 가리키는 변수 선언
 
-int Stack[STACK_LEN];
-int topindex;
-
-void Init_Stack(void)
+void Init_Stack(void)	// 스택 초기화
 {
 	topindex = -1;
 }
-void Push(int data)
+void Push(int data)	// 스택에 데이터를 넣는 푸시 함수
 {
 	if (topindex + 1 >= STACK_LEN)
 		return;
@@ -136,7 +136,7 @@ void Push(int data)
 		Stack[++topindex] = data;
 }
 
-int Pop(void)
+int Pop(void)	// 스택에서 데이터를 빼내는 팝 함수
 {
 	if (topindex == -1)
 		return 0;
@@ -144,10 +144,10 @@ int Pop(void)
 		return Stack[topindex--];
 }
 
-void Quick_Sort_id2(Student * student)
+void Quick_Sort_id2(Student * student)	// 퀵 비재귀 함수
 {
-	int left = 0;
-	int right = DATA_LEN - 1;
+	int left = 0;	// 왼쪽 끝을 알리는 변수
+	int right = DATA_LEN - 1;	// 오른쪽 끝을 알리는 변수
 	
 	int L;
 	int R;
