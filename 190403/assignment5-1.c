@@ -4,7 +4,7 @@
 #include <time.h>
 #include <string.h>
 
-#define DATA_LEN 50000 // 데이터 5만명 분을 받기 위해 데이터 길이를 정함
+#define DATA_LEN 5000 // 데이터 5천명을 받기 위해 데이터 길이를 정함
 #define id_LEN 9 // 학번 길이 설정
 #define name_LEN 11	//이름 길이 설정
 #define phone_LEN 11 // 전화번호 길이 설정
@@ -60,7 +60,7 @@ void Initstudent(Student * student)	//Student 구조체 초기화
 
 void Printstudent(Student * student)	// Student 정보 출력
 {
-	for (int i = 0; i < DATA_LEN; i += 500)	// 500명씩 건너 뛰며 출력
+	for (int i = 0; i < DATA_LEN; i += 100)	// 100명씩 건너 뛰며 출력
 	{
 		printf("id=%d ", (student + i)->id);
 		printf("  name=%s  ", (student + i)->name);
@@ -457,7 +457,6 @@ int main(void)
 
 	student = (Student*)malloc(sizeof(Student)*DATA_LEN);
 
-	printf("5만명의 데이터를 생성중입니다. 잠시 기다려 주세요!\n\n");
 
 	for (int i = 0; i < DATA_LEN; i++)
 	{
