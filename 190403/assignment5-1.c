@@ -85,7 +85,7 @@ void Swap_Student(Student * student1, Student * student2)	// Student의 정보들을 
 
 }
 
-void Select_Sort_id(Student * student)	// 학번 선택 정렬
+void Select_Sort_id(Student * student)	// 선택 학번 정렬
 {
 	int i, j;
 	int least;
@@ -149,70 +149,12 @@ void Select_Sort(Student * student)	// 선택 정렬 함수
 
 
 	start = clock();
-	Select_Sort_name(student);
+	Select_Sort_name(student);	// 선택 이름 정렬
 	end = clock();
 	printf("\n이름 순으로 정렬\n---------------------------------\n");
 	Printstudent(student);
 	printf("\n>>>이름 선택정렬 소요시간: %.3lf초\n---------------------------------\n", (end - start) / (double)1000);
 }
-
-
-
-void Bubble_Sort_id(Student * student)
-{
-	int i, j;
-
-	for (i = 0; i < DATA_LEN - 1; i++)
-	{
-		for (j = 0; j < DATA_LEN - 1 - i; j++)
-		{
-			if ((student + j)->id > (student + (j + 1))->id)
-			{
-				Swap_Student(&student[j], &student[j + 1]);
-			}
-			
-		}
-	}
-
-}
-
-void Bubble_Sort_name(Student * student)
-{
-	int i, j;
-
-	for (i = 0; i < DATA_LEN - 1; i++)
-	{
-		for (j = 0; j < DATA_LEN - 1 - i; j++)
-		{
-			if (strcmp((student + j)->name, (student + (j + 1))->name) > 0)
-			{
-				Swap_Student(&student[j], &student[j + 1]);
-			}
-		}
-	}
-
-}
-
-void Bubble_Sort(Student * student)
-{
-	clock_t start, end;
-
-	start = clock();
-	Bubble_Sort_id(student);
-	end = clock();
-	printf("\nBubble Sort !\n\n학번 순으로 정렬\n---------------------------------\n");
-	Printstudent(student);
-	printf("\n>>>학번 선택정렬 소요시간: %.3lf초\n---------------------------------\n", (end - start) / (double)1000);
-
-
-	start = clock();
-	Bubble_Sort_name(student);
-	end = clock();
-	printf("\n이름 순으로 정렬\n---------------------------------\n");
-	Printstudent(student);
-	printf("\n>>>이름 선택정렬 소요시간: %.3lf초\n---------------------------------\n", (end - start) / (double)1000);
-}
-
 
 
 void Quick_Sort_id(Student * student, int left, int right)	// 퀵 학번 정렬
@@ -286,7 +228,7 @@ void Quick_Sort_name(Student * student, int left, int right)	// 퀵 이름 정렬
 }
 
 
-void Quick_Sort(Student * student) // 퀵 정렬 함수 (내용은 선택 정렬 함수와 같음)
+void Quick_Sort(Student * student) // 퀵 정렬 함수 (선택 정렬 함수와 내용은 같음)
 {
 	clock_t start, end;
 
@@ -307,7 +249,67 @@ void Quick_Sort(Student * student) // 퀵 정렬 함수 (내용은 선택 정렬 함수와 같음
 }
 
 
-void Heap_Sort_id(Student *student)
+void Heap_Sort_id(Student *student)	// 힙 학번 정렬 (최대힙 이용)
+{
+	int i;
+	int curpos;	// 현재 우선순위를 가리키는 변수
+	int parentpos;	// 부모의 우선순위를 가리키는 변수
+
+	for (i = 0; i < DATA_LEN; i++)	// 이 반복문을 통해, 각각의 부모가 각각의 자식보다 높은 값을 갖도록 함
+	{
+		curpos = i;
+		parentpos = (curpos - 1) / 2;	// 부모의 우선순위를 계산
+		while (curpos > 0 && (student + parentpos)->id < (student + curpos)->id) // 부모의 우선순위가 현재의 우선순위보다 낮으면 바꿈
+		{ 
+			Swap_Student(&student[parentpos], &student[curpos]);
+			curpos = parentpos;	// 현재의 우선순위를 부모의 우선순위로 바꿈
+			parentpos = (curpos - 1) / 2;	// 부모의 우선순위를 계산
+		}
+	}
+
+	int pos = DATA_LEN;	// 맨 마지막 값을 가리킴. while문을 들어가서 pos--을 하기 때문에, DATA_LEN-1 이 아닌 DATA_LEN으로 초기화
+
+	while (pos > 0)	// 이 반복문을 통해, 오름차순으로 정렬함
+	{
+		Student temp;
+
+		memcpy(&temp, &student[0], sizeof(Student));	// temp에 루트 노드의 값을 저장
+
+		pos--;	// 값을 하나씩 줄임 (이 반복문을 통해 바로 전의 pos는 위치가 정해짐)
+		memcpy(&student[0], &student[pos], sizeof(Student));	// 루트 노드에 현재 가리키는 노드의 값, 즉, 트리에서 가장 작은 값을 오버래핑함
+
+		parentpos = 0;	// 맨 위부터 시작
+
+
+		while (1)	// 현재 루트 노드에 가장 작은 값이 들어있으므로, 이 반복문을 통해 제 위치를 찾아줌
+		{
+			int leftpos = (parentpos * 2) + 1;	// 부모의 왼쪽 자식 노드를 가리킴
+			int rightpos = leftpos + 1;	// 부모의 오른쪽 자식 노드를 가리킴
+
+			if (leftpos >= pos)	// 부모의 왼쪽 자식 노드가 맨 끝에 도달하면
+				break;	// 반복문 탈출
+
+			// 왼쪽 자식 노드의 학번이 오른쪽 자식의 노드보다 크고 and 왼쪽 자식 노드의 학번이 부모 자식의 노드보다 크면 
+			if ((rightpos >= pos || (student + leftpos)->id >= (student + rightpos)->id) && (student + leftpos)->id > (student + parentpos)->id)
+			{
+				Swap_Student(&student[parentpos], &student[leftpos]);	// 부모와 왼쪽 자식을 스왑
+				parentpos = leftpos;	// 부모는 왼쪽 자식 노드로 바꿈
+			}// 오른쪽 자식 노드의 학번이 왼쪽 자식 노드의 학번보다 크고 and 오른쪽 자식 노드의 학번이 부모 노드의 학번보다 크면
+			else if ((student + rightpos)->id > (student + leftpos)->id && (student + rightpos)->id > (student + parentpos)->id)
+			{
+				Swap_Student(&student[parentpos], &student[rightpos]);	// 부모와 오른쪽 자식을 스왑
+				parentpos = rightpos;	// 부모는 오른쪽 자식 노드로 바꿈
+			}
+			else // 제 위치를 찾았으면
+				break;
+		}
+
+		memcpy(&student[pos], &temp, sizeof(Student));	// temp에 저장된 가장 큰 노드를 맨 끝 노드에 가져다 놓음
+
+	}
+}
+
+void Heap_Sort_name(Student *student) // 힙 이름 정렬
 {
 	int i;
 	int curpos;
@@ -317,8 +319,8 @@ void Heap_Sort_id(Student *student)
 	{
 		curpos = i;
 		parentpos = (curpos - 1) / 2;
-		while (curpos > 0 && (student + parentpos)->id < (student + curpos)->id) //부모의 우선순위가 현재의 우선순위보다 낮으면 바꿈
-		{ 
+		while (curpos > 0 && strcmp((student + parentpos)->name, (student + curpos)->name) < 0) //부모의 우선순위가 현재의 우선순위보다 낮으면 바꿈
+		{
 			Swap_Student(&student[parentpos], &student[curpos]);
 			curpos = parentpos;
 			parentpos = (curpos - 1) / 2;
@@ -326,6 +328,7 @@ void Heap_Sort_id(Student *student)
 	}
 
 	int pos = DATA_LEN;
+
 
 	while (pos > 0)
 	{
@@ -338,22 +341,21 @@ void Heap_Sort_id(Student *student)
 
 		parentpos = 0;
 
-
 		while (1)
 		{
-			int leftpos = (parentpos * 2) + 1;
+			int leftpos = parentpos * 2 + 1;
 			int rightpos = leftpos + 1;
 
 			if (leftpos >= pos)
 				break;
 
 
-			if ((rightpos >= pos || (student + leftpos)->id >= (student + rightpos)->id) && (student + leftpos)->id > (student + parentpos)->id)
+			if (rightpos >= pos || strcmp((student + leftpos)->name, (student + rightpos)->name) >= 0 && strcmp((student + leftpos)->name, (student + parentpos)->name) > 0)
 			{
 				Swap_Student(&student[parentpos], &student[leftpos]);
 				parentpos = leftpos;
 			}
-			else if ((student + rightpos)->id > (student + leftpos)->id && (student + rightpos)->id > (student + parentpos)->id)
+			else if (strcmp((student + rightpos)->name, (student + leftpos)->name) > 0 && strcmp((student + rightpos)->name, (student + parentpos)->name) > 0)
 			{
 				Swap_Student(&student[parentpos], &student[rightpos]);
 				parentpos = rightpos;
@@ -363,70 +365,10 @@ void Heap_Sort_id(Student *student)
 		}
 
 		memcpy(&student[pos], &temp, sizeof(Student));
-
 	}
 }
 
-void Heap_Sort_name(Student *student)
-{
-int i;
-int curpos;
-int parentpos;
-
-for (i = 0; i < DATA_LEN; i++)
-{
-	curpos = i;
-	parentpos = (curpos - 1) / 2;
-	while (curpos > 0 && strcmp((student + parentpos)->name, (student + curpos)->name) < 0) //부모의 우선순위가 현재의 우선순위보다 낮으면 바꿈
-	{
-		Swap_Student(&student[parentpos], &student[curpos]);
-		curpos = parentpos;
-		parentpos = (curpos - 1) / 2;
-	}
-}
-
-int pos = DATA_LEN;
-
-
-while (pos > 0)
-{
-	Student temp;
-
-	memcpy(&temp, &student[0], sizeof(Student));
-
-	pos--;
-	memcpy(&student[0], &student[pos], sizeof(Student));
-
-	parentpos = 0;
-
-	while (1)
-	{
-		int leftpos = parentpos * 2 + 1;
-		int rightpos = leftpos + 1;
-
-		if (leftpos >= pos)
-			break;
-
-
-		if (rightpos >= pos || strcmp((student + leftpos)->name, (student + rightpos)->name) >= 0 && strcmp((student + leftpos)->name, (student + parentpos)->name) > 0)
-		{
-			Swap_Student(&student[parentpos], &student[leftpos]);
-			parentpos = leftpos;
-		}
-		else if (strcmp((student + rightpos)->name, (student + leftpos)->name) > 0 && strcmp((student + rightpos)->name, (student + parentpos)->name) > 0)
-		{
-			Swap_Student(&student[parentpos], &student[rightpos]);
-			parentpos = rightpos;
-		}
-		else
-			break;
-	}
-
-	memcpy(&student[pos], &temp, sizeof(Student));
-}
-}
-
-void Heap_Sort(Student * student)	// 힙 정렬 함수 (선택 정렬 함수와 같음)
+void Heap_Sort(Student * student)	// 힙 정렬 함수 (선택 정렬 함수와 내용은 같음)
 {
 	clock_t start, end;
 
@@ -496,11 +438,7 @@ int main(void)
 		
 	}
 
-	//	Printstudent(student);
-
-
-//	Select_Sort(student);
-//	Bubble_Sort(student);
+	Select_Sort(student);
 	Quick_Sort(student);
 	Heap_Sort(student);
 
