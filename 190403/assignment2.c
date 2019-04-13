@@ -67,7 +67,6 @@ int main(void)
 	int y = 1;
 	int cnt;
 	char direct;
-	char before_direct = 'A';
 
 	while (x != 23 || y != 17)
 	{
@@ -75,35 +74,24 @@ int main(void)
 
 		if (arr[x][y + 1] != 1 && arr[x][y + 1] != 'X')
 		{
-			if (before_direct != 'W')
-			{
-				cnt++;
-				direct = 'E';
-			}
+			cnt++;
+			direct = 'E';
 		}
 		if (arr[x + 1][y] != 1 && arr[x + 1][y] != 'X')
 		{
-			if (before_direct != 'N')
-			{
-				cnt++;
-				direct = 'S';
-			}
+			cnt++;
+			direct = 'S';
 		}
 		if (arr[x][y - 1] != 1 && arr[x][y - 1] != 'X')
 		{
-			if (before_direct != 'E')
-			{
-				cnt++;
-				direct = 'W';
-			}
+			cnt++;
+			direct = 'W';
 		}
 		if (arr[x - 1][y] != 1 && arr[x - 1][y] != 'X')
 		{
-			if (before_direct != 'S')
-			{
-				cnt++;
-				direct = 'N';
-			}
+
+			cnt++;
+			direct = 'N';
 		}
 
 		if (cnt == 0)
@@ -111,7 +99,6 @@ int main(void)
 			arr[x][y] = 'X';
 			x = Peek_x();
 			y = Peek_y();
-			before_direct = 'A';
 			Pop();
 			printf("Pop(%d, %d)\n", x, y);
 		}
@@ -139,7 +126,6 @@ int main(void)
 				arr[x][y++] = 'X';
 				break;
 			}
-			before_direct = direct;
 		}
 	}
 	

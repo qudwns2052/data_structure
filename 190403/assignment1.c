@@ -242,9 +242,9 @@ int CatchError(char str[])	// 에러 잡는 함수
 int main(void)
 {
 	char * i_str = { "2+(3*4)**2-12" };		// 중위수식 문자열
-	/*char * i_str = { "2+(3*4**2-12" };
-	char * i_str = { "(11+3)*2**3-12" };	
-	char * i_str = { "2+(3+*4**2-12" };*/
+//	char * i_str = { "2+(3*4**2-12" };
+//	char * i_str = { "(11+3)*2**3-12" };	
+//	char * i_str = { "2+(3+*4**2-12" };
 
 	char * p_str;	// 후위수식 문자열
 
@@ -284,6 +284,7 @@ int main(void)
 	}
 
 	p_str = infix_to_postfix(i_str);	// 중위 수식 -> 후위 수식으로 변환 , 동적할당 된 문자열을 함수가 반환하고 이를 p_str로 받음
+	
 
 	printf("후위수식 표현: %s\n", p_str);
 
