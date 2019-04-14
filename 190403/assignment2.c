@@ -127,9 +127,10 @@ int main(void)
 				break;
 			}
 		}
+		
 	}
-	
-	arr[x][y] = 'X';
+	arr[1][1] = 'S';
+	arr[x][y] = 'E';
 
 	for (int i = 0; i < 25; i++)
 	{
