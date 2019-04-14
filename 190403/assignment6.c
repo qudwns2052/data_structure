@@ -122,7 +122,7 @@ void Quick_Sort_id1(Student * student, int left, int right)	// 퀵 학번 정렬 (재�
 }
 
 	// 퀵 비재귀
-#define STACK_LEN 100*DATA_LEN	// 퀵 비재귀 구현을 위해, 스택을 활용. 스택의 크기 선언
+#define STACK_LEN 10 * DATA_LEN	// 퀵 비재귀 구현을 위해, 스택을 활용. 스택의 크기 선언
 
 int Stack[STACK_LEN];	// 스택 선언
 int topindex;	// 스택의 맨 위 인덱스를 가리키는 변수 선언
@@ -167,7 +167,7 @@ void Quick_Sort_id2(Student * student)	// 퀵 비재귀 함수
 		left = Pop();	// 왼쪽 끝 지정
 		right = Pop();	// 오른쪽 끝 지정
 
-		if (right - left > 0)	// 왼쪽과 오른쪽이 엇갈리기 전까지
+		if (right - left > 0)	// 왼쪽과 오른쪽이 엇갈리지 않았거나, 같지 않으면
 		{
 			pivot = (student + left)->id;	// 왼쪽 끝을 pivot으로 지정
 			L = left;	// 왼쪽 끝부터. left+1이 아닌 이유는, 밑에 while문에서 1을 증가시키고 확인하기 때문
@@ -186,7 +186,7 @@ void Quick_Sort_id2(Student * student)	// 퀵 비재귀 함수
 				} while ((student + R)->id > pivot);	// R의 학번이 pivot의 학번보다 작을 때까지 찾음
 
 
-				if (L >= R)	// L과 R이 엇갈리면 멈춤.
+				if (L >= R)	// L과 R이 엇갈리거나 같으면 멈춤
 					break;
 
 				Swap_Student(&student[L], &student[R]);	// L과 R을 스왑
