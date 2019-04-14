@@ -155,50 +155,50 @@ void Quick_Sort_id2(Student * student)	// 퀵 비재귀 함수
 	int L;
 	int R;
 
-	int pivot;
+	int pivot;	// pivot값을 지정. 여기서는, 제일 왼쪽이 pivot이 됨
 
-	Init_Stack();
+	Init_Stack();	// 스택 초기화
 
-	Push(right);
-	Push(left);
+	Push(right);	// 오른쪽 끝 푸시
+	Push(left);	// 왼쪽 끝 푸시
 
-	while (topindex > -1)
+	while (topindex > -1)	// 스택이 빌 때까지. 즉, 정렬이 끝날 때까지 반복
 	{
-		left = Pop();
-		right = Pop();
+		left = Pop();	// 왼쪽 끝 지정
+		right = Pop();	// 오른쪽 끝 지정
 
-		if (right - left > 0)
+		if (right - left > 0)	// 왼쪽과 오른쪽이 엇갈리기 전까지
 		{
-			pivot = (student + left)->id;
-			L = left;
-			R = right + 1;
+			pivot = (student + left)->id;	// 왼쪽 끝을 pivot으로 지정
+			L = left;	// 왼쪽 끝부터. left+1이 아닌 이유는, 밑에 while문에서 1을 증가시키고 확인하기 때문
+			R = right + 1;	// 오른쪽 끝부터. right + 1인 이유는, 밑에 while문에서 1을 감소시키고 확인하기 때문
 
 
-			while (1)
+			while (1)	//do while을 쓴 이유는, 마지막에 L과 R을 엇갈리게 하기 위함
 			{
 				do
 				{
-					L++;
-				} while ((student + L)->id < pivot);
+					L++;	//L값 먼저 증가
+				} while ((student + L)->id < pivot);	// L의 학번이 pivot의 학번보다 클 때까지 찾음
 				do
 				{
-					R--;
-				} while ((student + R)->id > pivot);
+					R--;	//R값 먼저 감소
+				} while ((student + R)->id > pivot);	// R의 학번이 pivot의 학번보다 작을 때까지 찾음
 
 
-				if (L >= R)
+				if (L >= R)	// L과 R이 엇갈리면 멈춤.
 					break;
 
-				Swap_Student(&student[L], &student[R]);
+				Swap_Student(&student[L], &student[R]);	// L과 R을 스왑
 			}
 
-			Swap_Student(&student[left], &student[R]);
-
-			Push(R - 1);
-			Push(left);
-			Push(right);
-			Push(R + 1);
-
+			Swap_Student(&student[left], &student[R]);	// 피봇과 R을 스왑
+			// 현재 R자리에, pivot이 들어갔고, pivot 기준으로 pivot 왼쪽은 pivot보다 전부 작은 값, 오른쪽은 pivot보다 전부 큰 값이 있음. 따라서, pivot을 제외한 좌 우를 또 정렬해줌
+			Push(R - 1);	// 만약, 인덱스가 1  2  3  4  pivot자리  5   6  7  8이면, 4의 index를 Push. 즉, pivot 바로 왼쪽의 index를 Push
+			Push(left);	// 1의 index를 Push. 즉, 왼쪽 끝 index를 Push
+			Push(right);	// 8의 index를 푸시. 즉, 오른쪽 끝 index를 Push
+			Push(R + 1);	// 5의 index를 Push. 즉, pivot 바로 오른쪽의 index를 Push
+			//	이렇게 Push하는 이유: 첫번째 Pop이 left가 되고, 두번째 Pop이 right가 되기 때문임
 		}
 	}
 }
@@ -206,24 +206,27 @@ void Quick_Sort_id2(Student * student)	// 퀵 비재귀 함수
 void Quick_Sort(Student * student, Student * copy_student)
 {
 	clock_t start, end;
-
+	double Quick1;
 	start = clock();
 	Quick_Sort_id1(student, 0, DATA_LEN - 1);	// 퀵 재귀 정렬
 	end = clock();
+	Quick1 = (end - start) / (double)1000;
 	printf("\nQuick Sort 재귀!\n\n학번 순으로 정렬\n---------------------------------\n");
 	Printstudent(student);
-	printf("\n>>>학번 퀵정렬 소요시간: %.3lf초\n---------------------------------\n", (end - start) / (double)1000);
+	printf("\n>>>학번 퀵정렬 소요시간: %.3lf초\n---------------------------------\n", Quick1);
 
 
 
-
+	double Quick2;
 	start = clock();
 	Quick_Sort_id2(copy_student);	// 퀵 비재귀 정렬
 	end = clock();
+	Quick2 = (end - start) / (double)1000;
 	printf("\nQuick Sort 비재귀!\n\n학번 순으로 정렬\n---------------------------------\n");
 	Printstudent(copy_student);
-	printf("\n>>>학번 퀵정렬 소요시간: %.3lf초\n---------------------------------\n", (end - start) / (double)1000);
+	printf("\n>>>학번 퀵정렬 소요시간: %.3lf초\n---------------------------------\n", Quick2);
 
+	printf("결론!!!\n퀵 재귀 소요시간: %.3lf초\n퀵 비재귀 소요시간: %.3lf초\n", Quick1, Quick2);
 }
 
 
