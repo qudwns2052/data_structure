@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <windows.h>
 
 #define MAX_SIZE 9	//	Ω∫≈√ SIZE
 
@@ -227,8 +226,5 @@ int main(void)
 
 	}
 
-
-
-	system("pause");
 	return 0;
 }

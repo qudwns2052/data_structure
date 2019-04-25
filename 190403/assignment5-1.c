@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <windows.h>
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
@@ -442,8 +441,8 @@ int main(void)
 	Quick_Sort(student);
 	Heap_Sort(student);
 
+	int k;
+	scanf("%d", &k);
 
-
-	system("pause");
 	return 0;
 }

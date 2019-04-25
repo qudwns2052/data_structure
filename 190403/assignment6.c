@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <windows.h>
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
@@ -291,6 +290,5 @@ int main(void)
 	free(student);
 	free(copy_student);
 
-	system("pause");
 	return 0;
 }

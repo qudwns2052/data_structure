@@ -1,29 +1,28 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <windows.h>
 
 #define MAX_SIZE_STACK 100	// 스택의 최대 크기
 #define MAX_SIZE_STR 100	// 문자열의 최대 크기
 
 typedef int element;
-typedef struct 
+typedef struct
 {
 	element stack[MAX_SIZE_STACK];	// 스택
 	int top;	// top 인덱스
 }StackType;	// 스택 구조체 정의 
 
-void init(StackType *s) 
+void init(StackType *s)
 {
 	s->top = -1;	// 스택 초기화: top 인덱스를 -1로 설정
 }
 
-int is_empty(StackType *s) 
+int is_empty(StackType *s)
 {
 	return s->top == -1;	// 비어있으면 1 , 아니면 0 리턴
 }
 
-int is_full(StackType *s) 
+int is_full(StackType *s)
 {
 	return s->top == MAX_SIZE_STACK - 1;	// 꽉 차있으면 1, 아니면 0 리턴
 }
@@ -52,7 +51,7 @@ element peek(StackType *s)	// 스택에 맨 위 데이터 확인 함수
 
 int prec(char op)	// 우선순위 반환 함수
 {
-	switch (op) 
+	switch (op)
 	{
 	case '+': case '-': return 3;
 	case '*': case '/': return 4;
@@ -79,7 +78,7 @@ char * infix_to_postfix(char exp[]) // 중위수식 -> 후위수식으로 변환 함수
 	init(&s);	// 스택 초기화
 
 
-	for (i = 0; i < len; i++) 
+	for (i = 0; i < len; i++)
 	{
 		ch = exp[i];	// 문자열을 앞에서부터 1개씩 접근
 
@@ -93,10 +92,10 @@ char * infix_to_postfix(char exp[]) // 중위수식 -> 후위수식으로 변환 함수
 		}
 
 
-		
-		switch (ch) 
+
+		switch (ch)
 		{
-		
+
 		case '+': case '-': case '*': case '/': case'!':	// 연산자일 경우, 자신보다 우선순위가 높은게 스택에 있으면, temp로 빼줌
 
 			while (!is_empty(&s) && prec(peek(&s)) >= prec(ch))		// 스택이 비어있지 않고, AND ,스택에 저장되어 있는 맨 위의 우선순위가 현재 연산자의 우선순위보다 같거나 이상이면
@@ -107,7 +106,7 @@ char * infix_to_postfix(char exp[]) // 중위수식 -> 후위수식으로 변환 함수
 			push(&s, ch);	// 스택에 연산자 push
 			temp[idx++] = ' ';	// 공백으로 인해, 피연산자 자리수 해결	
 			break;
-			
+
 		case '(':	// 여는 괄호의 경우, 그냥 넣음
 			push(&s, ch);
 			break;
@@ -150,7 +149,7 @@ void Calculate(char str[])	// 후위수식으로 변환했으니 이제 계산
 	StackType s;	// 스택 선언
 	init(&s);	// 스택 초기화
 
-	for (i = 0; i< len; i++)	// 문자열 길이 까지 반복
+	for (i = 0; i < len; i++)	// 문자열 길이 까지 반복
 	{
 		idx = 0;
 
@@ -163,7 +162,7 @@ void Calculate(char str[])	// 후위수식으로 변환했으니 이제 계산
 			temp[idx] = str[i];		// temp에 문자 전달
 			i++;	// i 증가 (for문 i와 같은 이유: for문의 i는 str 문자열 길이 만큼 반복하지만, 여기서 str 문자열 길이를 읽기 때문에 같이 따라감)
 			idx++;	// idx 증가
-		}	
+		}
 
 		// = if (temp[0] == '*' || temp[0] == '/' || temp[0] == '+' || temp[0] == '-' || temp[0] == '!')	//연산자면, temp를 한번 받았을테니 검사
 		if (prec(temp[0]) > 2)	// 이 경우 때문에, 괄호의 prec을 1, 2로 각각 설정 // 연산자면, temp[0]만 문자를 받았기 때문에, temp[0]만 검사
@@ -190,7 +189,7 @@ void Calculate(char str[])	// 후위수식으로 변환했으니 이제 계산
 				{
 					m_temp *= op1;	// m_temp=1로 선언했기 때문에, op1을  op2만큼 계속해서 곱해줌
 				}
-				result = m_temp; 
+				result = m_temp;
 				break;
 			}
 
@@ -201,13 +200,13 @@ void Calculate(char str[])	// 후위수식으로 변환했으니 이제 계산
 			integer = atoi(temp);	// atoi(a): a문자열을 숫자로 변환하는 함수 <stdlib.h> 안에 존재
 			push(&s, integer);	//숫자 넣기
 		}
-		
+
 	}
 
 	printf("=%d\n", pop(&s));	// 최종 결과값은 스택 마지막에 남은 값이고, 위에 반복을 통해 스택에는 1개의 데이터가 남음. 그것을 출력
 
 }
-
+int check;	// 에러 발생 시 어떤 에러인지 알려주기 위한 변수 / 1이면, 숫자가 와야함/ 2이면, 문자가 와야함
 int CatchError(char str[])	// 에러 잡는 함수
 {
 	int i;
@@ -216,18 +215,35 @@ int CatchError(char str[])	// 에러 잡는 함수
 
 	for (i = 0; i < len; i++)	// 괄호가 짝이 맞는지 + 연산자가 연달아 나오지 않는지 확인
 	{
-		if(i < len - 1)	// 뒤에서 2번째까지만 확인함으로써 str 배열 범위를 벗어나지 않게 함
+		if (i < len - 1)	// 뒤에서 2번째까지만 확인함으로써 str 배열 범위를 벗어나지 않게 함
+		{
 			if (prec(str[i]) > 2 && prec(str[i + 1]) > 2)	// str[i]와 str[i+1]이 둘 다 피연산자일 경우
 			{
 				if (str[i] == '*' && str[i + 1] == '*')	// 제곱을 표현하는 ** 은 오류가 아니므로
 					continue;	// 반복문 위로 올라감
 				else
+				{ 
+					check = 1;
 					return i;	// 오류는 i번째와 i+1번째 사이에 발생
+				}
 			}
-		else if (prec(str[i]) == 1)	// 여는 괄호 갯수 확인
+
+			if (prec(str[i]) == -2 && prec(str[i + 1]) == 1)	// 여는괄호 앞에 숫자가 바로 오면 ex. 3(
+			{
+				check = 2;
+				return i;
+			}
+			else if (prec(str[i + 1]) == -2 && prec(str[i]) == 2)	// 닫는괄호 뒤에 숫자가 바로 오면 ex. )4
+			{
+				check = 2;
+				return i;
+			}
+		}
+		if (prec(str[i]) == 1)	// 여는 괄호 갯수 확인
 			index++;
 		else if (prec(str[i]) == 2)	// 닫는 괄호 갯수 확인
 			index--;
+		
 	}
 
 	if (index > 0)	// 짝이 안 맞는 경우: 닫는 괄호가 부족할 때
@@ -241,15 +257,15 @@ int CatchError(char str[])	// 에러 잡는 함수
 }
 int main(void)
 {
-//	char * i_str = { "2+3*4**2-1" };	// 중위수식 문자열
-	char * i_str = { "2+(3*4)**2-12" };		
-//	char * i_str = { "2+(3*4**2-12" };
-//	char * i_str = { "(11+3)*2**3-12" };	
-//	char * i_str = { "2+(3+*4**2-12" };
+	char * i_str = malloc(sizeof(char)*MAX_SIZE_STR);	// 입력받을 문자열을 동적할당
 
 	char * p_str;	// 후위수식 문자열
 
 	int Error;
+
+	printf("계산식을 입력하세요 >>> ");
+	scanf("%s", i_str);
+
 
 	printf("중위수식 표현: %s\n", i_str);
 
@@ -277,22 +293,25 @@ int main(void)
 				else
 					printf("%c", i_str[i]);
 			}
-			printf(" 이 위치에 오류가 있습니다. 숫자가 와야 합니다.\n");
+			if (check == 1)
+				printf(" 이 위치에 오류가 있습니다. 숫자가 와야 합니다.\n");
+			else if (check == 2)
+				printf(" 이 위치에 오류가 있습니다. 문자가 와야 합니다.\n");
 		}
 		
-		system("pause");
 		return 0;
 	}
 
 	p_str = infix_to_postfix(i_str);	// 중위 수식 -> 후위 수식으로 변환 , 동적할당 된 문자열을 함수가 반환하고 이를 p_str로 받음
-	
+
 
 	printf("후위수식 표현: %s\n", p_str);
 
 	Calculate(p_str);	// 후위 수식 계산
 
+	free(i_str);	// 동적할당 받은 메모리 반환
 	free(p_str);	// 동적할당 받은 메모리 반환
 
-	system("pause");
+	
 	return 0;
 }
