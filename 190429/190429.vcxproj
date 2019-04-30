@@ -18,6 +18,15 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ALGraph.h" />
+    <ClInclude Include="DLinkedList.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ALGraph.c" />
+    <ClCompile Include="ALGraphMain.c" />
+    <ClCompile Include="DLinkedList.c" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{059BDCFC-74CA-4151-9DF8-94FAB4734532}</ProjectGuid>
@@ -74,7 +83,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <SDLCheck>true</SDLCheck>
+      <SDLCheck>false</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -114,15 +123,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="BinarySearchTree.h" />
-    <ClInclude Include="BinaryTree2.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="BinarySearchTree.c" />
-    <ClCompile Include="BinarySearchTreeMain.c" />
-    <ClCompile Include="BinaryTree2.c" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
